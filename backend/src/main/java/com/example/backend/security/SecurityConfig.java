@@ -26,6 +26,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/asterix").permitAll()
                         .requestMatchers("/api/asterix").authenticated()
                         .anyRequest().permitAll())
+                .logout(logout -> logout.logoutUrl("/api/user/logout")
+                        .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200)))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
